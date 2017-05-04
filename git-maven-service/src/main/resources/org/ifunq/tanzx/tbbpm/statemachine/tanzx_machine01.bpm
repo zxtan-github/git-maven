@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<bpm code="org.ifunq.tanzx.tbbpm.statemachine.tanzx_machine01" name="充值业务处理流程" type="stateMachine" description="充值业务处理流程">
+  <var name="price" description="支付价格" dataType="java.lang.Integer" contextVarName="" defaultValue="" inOutType="return"/>
+  <var name="totalPrice" description="实付价" dataType="java.lang.Integer" contextVarName="" defaultValue="" inOutType="inner"/>
+  <var name="pList" description="人员" dataType="java.util.List" contextVarName="" defaultValue="$arrayList" inOutType="param"/>
+  <start id="1" tag="1" g="117,15,40,40">
+    <transition g=":-15,20" to="14"/>
+  </start>
+  <end id="11" name="结束" g="123,476,40,40"/>
+  <autoTask id="14" name="账户充值" g="94,89,88,48" retryMax="5" retryInterVal="60">
+    <transition g=":-15,20" to="16"/>
+  </autoTask>
+  <decision id="16" name="判断业务类型" g="89,195,100,48" retryMax="5" retryInterVal="60">
+    <transition g=":-15,20" to="23"/>
+    <transition g=":-15,20" to="24"/>
+  </decision>
+  <autoTask id="23" name="给业务方发送notify" g="27,282,88,48" retryMax="5" retryInterVal="60">
+    <transition g=":-15,20" to="25"/>
+  </autoTask>
+  <autoTask id="24" name="修改发票状态" g="173,283,88,48" retryMax="5" retryInterVal="60">
+    <transition g=":-15,20" to="25"/>
+  </autoTask>
+  <autoTask id="25" name="自动节点" g="104,384,88,48" retryMax="5" retryInterVal="60">
+    <transition g=":-15,20" to="11"/>
+  </autoTask>
+</bpm>

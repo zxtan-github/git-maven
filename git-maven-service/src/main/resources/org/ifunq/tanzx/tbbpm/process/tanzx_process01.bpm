@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<bpm code="org.ifunq.tanzx.tbbpm.process.tanzx_process01" name="tanzx_process01" type="process" description="tanzx_process01">
+  <var name="pList" description="输入参数" dataType="java.util.List&lt;String&gt;" defaultValue="$arrayList" inOutType="param"/>
+  <var name="result" description="返回结果" dataType="boolean" inOutType="return"/>
+  <start id="1" g="104,-2,40,40">
+    <transition g=":-15,20" to="29"/>
+  </start>
+  <end id="11" name="结束" g="116,482,40,40"/>
+  <autoTask id="29" name="下单操作" g="81,64,88,48">
+    <transition g=":-15,20" to="30"/>
+    <action type="java">
+      <actionHandle clazz="org.ifunq.tanzx.tbbpm.process.order.OrderProcessHander" method="xiaDan">
+        <var name="arg" dataType="java.lang.String" contextVarName="pList.get(0)" inOutType="param"/>
+        <var name="returnValue" dataType="boolean" contextVarName="result" inOutType="return"/>
+      </actionHandle>
+    </action>
+  </autoTask>
+  <decision id="30" name="下单是否成功" g="61,124,133,48">
+    <transition expression="result" name="成功" g=":-15,20" to="31"/>
+    <transition name="失败" g="290,151;:-15,20" to="35"/>
+  </decision>
+  <autoTask id="31" name="出库操作" g="86,191,88,48">
+    <transition g=":-15,20" to="32"/>
+  </autoTask>
+  <decision id="32" name="出库是否成功" g="66,267,129,48">
+    <transition expression="result" name="成功" g=":-15,20" to="33"/>
+    <transition name="失败" g="292,290;:-15,20" to="35"/>
+  </decision>
+  <autoTask id="33" name="配送操作" g="90,334,88,48">
+    <transition g=":-15,20" to="34"/>
+    <action type="java">
+      <actionHandle clazz="org.ifunq.tanzx.tbbpm.process.order.OrderProcessHander" method="peiSong">
+        <var name="arg" dataType="java.lang.String" contextVarName="pList.get(2)" inOutType="param"/>
+        <var name="returnValue" dataType="boolean" contextVarName="result" inOutType="return"/>
+      </actionHandle>
+    </action>
+  </autoTask>
+  <decision id="34" name="配送是否成功" g="75,403,121,48">
+    <transition name="成功" g=":-15,20" to="11"/>
+    <transition expression="!result" name="失败" g=":-15,20" to="35"/>
+  </decision>
+  <autoTask id="35" name="异常处理" g="251,404,88,48">
+    <transition g="292,502;:-15,20" to="11"/>
+    <action type="java">
+      <actionHandle clazz="org.ifunq.tanzx.tbbpm.process.order.OrderProcessHander" method="error">
+        <var name="returnValue" dataType="boolean" contextVarName="result" inOutType="return"/>
+      </actionHandle>
+    </action>
+  </autoTask>
+</bpm>

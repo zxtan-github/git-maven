@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<bpm code="org.ifunq.tanzx.tbbpm.process.tanzx_statemachine" name="tanzx_statemachine" type="process" description="tanzx_statemachine">
+  <var name="price" description="支付价格" dataType="java.lang.Integer" inOutType="return"/>
+  <var name="totalPrice" description="实付价" dataType="java.lang.Integer" inOutType="inner"/>
+  <var name="pList" description="人员" dataType="java.util.List" defaultValue="$arrayList" inOutType="param"/>
+  <start id="1" g="105,16,30,30">
+    <transition g=":-15,20" to="13"/>
+  </start>
+  <decision id="8" name="计算费用" g="76,239,88,48">
+    <transition expression="totalPrice&gt;=200" name="超过200" priority="1" g=":-15,20" to="10"/>
+    <transition name="不超过200" g=":-15,20" to="9"/>
+    <action type="java">
+      <actionHandle clazz="org.ifunq.tanzx.tbbpm.process.ktv.MockJavaClazz" method="calPrice">
+        <var name="num" dataType="int" contextVarName="pList.size()" inOutType="param"/>
+        <var name="returnValue" dataType="int" contextVarName="totalPrice" inOutType="return"/>
+      </actionHandle>
+    </action>
+  </decision>
+  <scriptTask id="9" name="原价" g="136,319,88,48">
+    <transition g=":-15,20" to="12"/>
+    <action type="ql">
+      <actionHandle expression="price*1">
+        <var name="price" description="价格" dataType="java.lang.Integer" contextVarName="totalPrice" defaultValue="" inOutType="param"/>
+        <var name="price" description="价格" dataType="java.lang.Integer" contextVarName="price" defaultValue="" inOutType="return"/>
+      </actionHandle>
+    </action>
+  </scriptTask>
+  <scriptTask id="10" name="9折优惠" g="16,319,88,48">
+    <transition g=":-15,20" to="12"/>
+    <action type="ql">
+      <actionHandle expression="(round(price*0.9,0)).intValue()">
+        <var name="price" description="价格" dataType="java.lang.Integer" contextVarName="totalPrice" inOutType="param"/>
+        <var name="price" description="价格" dataType="java.lang.Integer" contextVarName="price" inOutType="return"/>
+      </actionHandle>
+    </action>
+  </scriptTask>
+  <end id="11" name="结束" g="105,479,30,30"/>
+  <autoTask id="12" name="付款" g="76,399,88,48">
+    <transition g=":-15,20" to="11"/>
+    <action type="java">
+      <actionHandle clazz="org.ifunq.tanzx.tbbpm.process.ktv.MockSpringBean" method="payMoney">
+        <var name="price" dataType="int" contextVarName="price" inOutType="param"/>
+      </actionHandle>
+    </action>
+  </autoTask>
+  <loopProcess id="13" name="循环节点" g="21,78,230,146" collectionVarName="pList" variableName="p" indexVarName="i" startNodeId="13-1" endNodeId="13-1">
+    <transition g=":-15,20" to="8"/>
+    <autoTask id="13-1" name="每人唱一首歌" g="77,112,88,48">
+      <action type="java">
+        <actionHandle clazz="org.ifunq.tanzx.tbbpm.process.ktv.MockSpringBean" method="sing">
+          <var name="name" dataType="java.lang.String" contextVarName="p" inOutType="param"/>
+        </actionHandle>
+      </action>
+    </autoTask>
+  </loopProcess>
+</bpm>

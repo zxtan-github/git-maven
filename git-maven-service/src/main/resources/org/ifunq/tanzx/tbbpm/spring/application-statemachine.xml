@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+       default-lazy-init="false">
+
+    <import resource="classpath*:persistance.xml"/>
+
+    <bean id="shardManager" class="com.taobao.tbbpm.common.persistence.ShardRuleFactory">
+        <property name="ruleMaps">
+            <map>
+                <entry key="stateMachine">
+                    <value>nstatemachineShardRule</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="nstatemachineShardRule" class="com.taobao.tbbpm.common.persistence.ShardRule">
+        <property name="shard" value="false"/>
+        <property name="dataSource" value="haitao"/>
+    </bean>
+
+    <bean id="bpmDefineDAO" class="com.taobao.tbbpm.define.persistence.impl.BpmDefineDAOImpl" parent="connectionUtils"/>
+    <bean id="bpmDefineQuery" class="com.taobao.tbbpm.define.persistence.impl.BpmDefineQueryImpl"
+          parent="connectionUtils"/>
+
+    <bean id="springTransactionTemplate" class="com.taobao.tbbpm.common.persistence.SpringTransactionTemplate">
+        <property name="transactionManager" ref="transactionManager"/>
+    </bean>
+
+    <bean id="bpmConfig" class="com.taobao.tbbpm.define.BpmDefineConfig">
+        <property name="transactionType" value="springTransactionTemplate"/>
+    </bean>
+
+    <bean id="statemachineConfig" class="com.taobao.tbbpm.statemachine.StateMachineConfig">
+        <property name="dataBaseType" value="mysql"/>
+        <property name="loadDefineType" value="file"/>
+        <property name="intervalTime" value="60"/>
+    </bean>
+
+    <bean id="connectionUtils" class="com.taobao.tbbpm.common.persistence.ConnectionUtils">
+        <property name="dataSource">
+            <ref bean="dataSource"/>
+        </property>
+    </bean>
+
+    <bean id="abstractPersistenceService"
+          class="com.taobao.tbbpm.statemachine.persistence.impl.AbstractPersistenceService">
+        <property name="dataSources">
+            <map>
+                <entry key="haitao">
+                    <ref bean="dataSource"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <!-- 状态机服务定义 -->
+    <bean id="purchaseOrderStateMachineService"
+          class="com.sfebiz.logistics.service.purchaseorder.PurchaseOrderStateMachineServiceImpl"
+          parent="abstractPersistenceService"/>
+
+    <bean id="stockinOrderStateMachineService"
+          class="com.sfebiz.logistics.service.stockinorder.statemachine.StockinOrderStateMachineServiceImpl"
+          parent="abstractPersistenceService"/>
+
+    <bean id="stockoutOrderStateMachineService"
+          class="com.sfebiz.logistics.service.stockoutorder.statemachine.StockoutOrderStateMachineServiceImpl"
+          parent="abstractPersistenceService"/>
+
+    <bean id="operationPlanSkuStateMachineService"
+          class="com.sfebiz.logistics.service.operationplan.statemachine.OperationPlanSkuStateMachineServiceImpl"
+          parent="abstractPersistenceService"/>
+
+    <bean id="galOrderStateMachineService"
+          class="com.sfebiz.logistics.service.galorder.statemachine.GalOrderStateMachineServiceImpl"
+          parent="abstractPersistenceService"/>
+
+    <bean id="transferOrderStateMachineService"
+          class="com.sfebiz.logistics.service.transferorder.statemachine.TransferOrderStateMachineServiceImpl"
+          parent="abstractPersistenceService"/>
+
+    <bean id="productDeclareStateMachineService"
+          class="com.sfebiz.logistics.service.sku.statemachine.ProductDeclareStateMachineServiceImpl"
+          parent="abstractPersistenceService"/>
+
+    <!-- 采购退货 -->
+    <bean id="purchaseReturnStateMachineService"
+          class="com.sfebiz.logistics.service.purchasereturn.statemachine.PurchaseReturnStateMachineServiceImpl"
+          parent="abstractPersistenceService"/>
+
+    <!-- 采退出库单状态机 -->
+    <bean id="purReturnStockoutOrderStateMachineService"
+          class="com.sfebiz.logistics.service.stockoutorder.statemachine.StockoutOrderStateMachineServiceImpl"
+          parent="abstractPersistenceService"/>
+
+    <bean id="stockAdjustOrderStateMachineService"
+          class="com.sfebiz.logistics.service.stockadjustorder.statemachine.StockAdjustOrderStateMachineServiceImpl"
+          parent="abstractPersistenceService"/>
+
+    <!-- 供应商商品活动价格调整状态机 -->
+    <bean id="providerSkuActivityPriceAdjustStateMachineService"
+          class="com.sfebiz.logistics.service.skuprovider.statemachine.ProviderSkuActivityPriceAdjustStateMachineServiceImpl"
+          parent="abstractPersistenceService"/>
+
+    <!-- 供应商商品供货价格调整状态机 -->
+    <bean id="providerSkuSupplyPriceAdjustStateMachineService"
+          class="com.sfebiz.logistics.service.skuprovider.statemachine.ProviderSkuSupplyPriceAdjustStateMachineServiceImpl"
+          parent="abstractPersistenceService"/>
+
+    <bean id="openStockoutOrderStateMachineService"
+          class="com.sfebiz.logistics.service.wmsopenapi.statemachine.OpenStockoutOrderStateMachineServiceImpl"
+          parent="abstractPersistenceService"/>
+
+    <bean id="engineService" class="com.sfebiz.logistics.service.statemachine.EngineServiceImpl"/>
+
+    <bean id="stateMachineStateServiceMaps" class="java.util.HashMap">
+        <constructor-arg>
+            <map>
+                <entry key="STOCKOUT_ORDER">
+                    <ref bean="stockoutOrderStateMachineService"/>
+                </entry>
+                <entry key="STOCKOUT_ORDER_OVERSEA_CLEARANCE">
+                    <ref bean="stockoutOrderStateMachineService"/>
+                </entry>
+                <entry key="STOCKOUT_ORDER_CLEARANCE">
+                    <ref bean="stockoutOrderStateMachineService"/>
+                </entry>
+                <entry key="STOCKOUT_ORDER_OVERSEA">
+                    <ref bean="stockoutOrderStateMachineService"/>
+                </entry>
+                <entry key="STOCKIN_ORDER">
+                    <ref bean="stockinOrderStateMachineService"/>
+                </entry>
+                <entry key="PURCHASE_ORDER">
+                    <ref bean="purchaseOrderStateMachineService"/>
+                </entry>
+                <entry key="GAL_ORDER">
+                    <ref bean="galOrderStateMachineService"/>
+                </entry>
+                <entry key="OPERATION_PLAN">
+                    <ref bean="operationPlanSkuStateMachineService"/>
+                </entry>
+                <entry key="TRANSFER_ORDER">
+                    <ref bean="transferOrderStateMachineService"/>
+                </entry>
+                <entry key="PRODUCT_DECLARE">
+                    <ref bean="productDeclareStateMachineService"/>
+                </entry>
+                <!-- 采购退货 -->
+                <entry key="PURCHASE_RETURN">
+                    <ref bean="purchaseReturnStateMachineService"/>
+                </entry>
+                <!-- 采退出库单状态机 -->
+                <entry key="STOCKOUT_ORDER_PURCHASE_RETURN">
+                    <ref bean="purReturnStockoutOrderStateMachineService"/>
+                </entry>
+                <entry key="STOCK_ADJUST_ORDER">
+                    <ref bean="stockAdjustOrderStateMachineService"/>
+                </entry>
+                <!-- 供应商商品活动价格调整申请单状态机 -->
+                <entry key="PROVIDER_SKU_ACTIVITY_PRICE_ADJUST">
+                    <ref bean="providerSkuActivityPriceAdjustStateMachineService"/>
+                </entry>
+                <!-- 供应商商品活动价格调整申请单状态机 -->
+                <entry key="PROVIDER_SKU_SUPPLY_PRICE_ADJUST">
+                    <ref bean="providerSkuSupplyPriceAdjustStateMachineService"/>
+                </entry>
+                <entry key="OPEN_STOCKOUT_ORDER">
+                    <ref bean="openStockoutOrderStateMachineService"/>
+                </entry>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <bean id="stateMachineTemplateCodeMaps" class="java.util.HashMap">
+        <constructor-arg>
+            <map>
+            	<!-- 出库单 -->
+                <entry key="STOCKOUT_ORDER" value="statemachine.define.SalesStockout"/>
+                <entry key="STOCKOUT_ORDER_OVERSEA_CLEARANCE" value="statemachine.define.SalesStockoutOverseaClearance"/>
+                <entry key="STOCKOUT_ORDER_CLEARANCE" value="statemachine.define.SalesStockoutClearance"/>
+                <entry key="STOCKOUT_ORDER_OVERSEA" value="statemachine.define.SalesStockoutOversea"/>
+                <!-- 入库单 -->
+                <entry key="STOCKIN_ORDER" value="statemachine.define.StockInOrderStateMachine"/>
+                <!-- 采购单 -->
+                <entry key="PURCHASE_ORDER" value="statemachine.define.PurchaseOrderStateMachine"/>
+                <!-- 损益单 -->
+                <entry key="GAL_ORDER" value="statemachine.define.GalOrderStateMachine"/>
+                <!-- 调拨单 -->
+                <entry key="TRANSFER_ORDER" value="statemachine.define.TransferOrderStateMachine"/>
+                <!-- 商品申报 -->
+                <entry key="PRODUCT_DECLARE" value="statemachine.define.ProductDeclareStateMachine"/>
+                <!-- 采购退货单 -->
+                <entry key="PURCHASE_RETURN" value="statemachine.define.PurchaseReturnStateMachine"/>
+                <!-- 采购退货出库单 -->
+                <entry key="STOCKOUT_ORDER_PURCHASE_RETURN" value="statemachine.define.SalesStockoutByPurchaseReturn"/>
+                <!-- 库存调拨单 -->
+                <entry key="STOCK_ADJUST_ORDER" value="statemachine.define.StockAdjustOrderStateMachine"/>
+                <!-- 供应商商品活动价格调整申请单状态机 -->
+                <entry key="PROVIDER_SKU_ACTIVITY_PRICE_ADJUST" value="statemachine.define.ProviderSkuActivityPriceAdjustStateMachine"/>
+                <!-- 供应商商品供货价格调整申请单状态机 -->
+                <entry key="PROVIDER_SKU_SUPPLY_PRICE_ADJUST" value="statemachine.define.ProviderSkuSupplyPriceAdjustStateMachine"/>
+                
+                <entry key="OPERATION_PLAN" value="statemachine.define.OperationPlanStateMachine"/>
+                <entry key="OPEN_STOCKOUT_ORDER" value="statemachine.define.OpenSalesStockout"/>
+            </map>
+        </constructor-arg>
+    </bean>
+</beans>

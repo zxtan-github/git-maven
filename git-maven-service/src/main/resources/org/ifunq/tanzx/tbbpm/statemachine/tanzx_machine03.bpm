@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<bpm code="org.ifunq.tanzx.tbbpm.statemachine.tanzx_machine03" name="谭宗喜状态机03" type="stateMachine" description="谭宗喜状态机03">
+  <var name="request" description="入参" dataType="String" inOutType="param"/>
+  <start id="1" name="开始" tag="START" g="235,9,40,40">
+    <transition g=":-15,20" to="26"/>
+  </start>
+  <end id="99" name="结束" tag="END" g="243,464,40,40"/>
+  <waitTask id="26" name="SUBMITED" tag="SUBMITED" g="215,86,88,48" retryMax="5" retryInterVal="60">
+    <transition name="SUBMITED_2_APPROVAL" g=":-15,20" to="27"/>
+    <transition name="SUBMITED_2_PASS" g=":-15,20" to="29"/>
+    <inAction type="spring-bean">
+      <actionHandle bean="simpleFlowHandleService" clazz="org.ifunq.tanzx.tbbpm.machine.simpleflow.SimpleFlowHandleService" method="submitedBefore">
+        <var name="request" description="入参" dataType="String" contextVarName="request" inOutType="param"/>
+      </actionHandle>
+    </inAction>
+    <outAction type="spring-bean">
+      <actionHandle bean="simpleFlowHandleService" clazz="org.ifunq.tanzx.tbbpm.machine.simpleflow.SimpleFlowHandleService" method="submitedAfter">
+        <var name="request" description="入参" dataType="String" contextVarName="request" inOutType="param"/>
+      </actionHandle>
+    </outAction>
+  </waitTask>
+  <waitTask id="27" name="APPROVAL" tag="APPROVAL" g="91,211,88,48" retryMax="5" retryInterVal="60">
+    <transition name="APPROVAL_2_ISSUED" g=":-15,20" to="30"/>
+    <inAction type="spring-bean">
+      <actionHandle bean="simpleFlowHandleService" clazz="org.ifunq.tanzx.tbbpm.machine.simpleflow.SimpleFlowHandleService" method="approvalBefore">
+        <var name="request" description="入参" dataType="String" contextVarName="request" inOutType="param"/>
+      </actionHandle>
+    </inAction>
+    <inAction type="spring-bean">
+      <actionHandle bean="simpleFlowHandleService" clazz="org.ifunq.tanzx.tbbpm.machine.simpleflow.SimpleFlowHandleService" method="approvalBefore2"/>
+    </inAction>
+    <outAction type="spring-bean">
+      <actionHandle bean="simpleFlowHandleService" clazz="org.ifunq.tanzx.tbbpm.machine.simpleflow.SimpleFlowHandleService" method="approvalAfter"/>
+    </outAction>
+  </waitTask>
+  <waitTask id="29" name="PASS" tag="PASS" g="342,293,88,48" retryMax="5" retryInterVal="60">
+    <transition name="PASS_2_END" g="388,484;:-15,20" to="99"/>
+  </waitTask>
+  <waitTask id="30" name="ISSUED" tag="ISSUED" g="91,340,88,48" retryMax="5" retryInterVal="60">
+    <transition name="ISSUED_2_END" g="135,484;:-15,20" to="99"/>
+    <inAction type="spring-bean">
+      <actionHandle bean="simpleFlowHandleService" clazz="org.ifunq.tanzx.tbbpm.machine.simpleflow.SimpleFlowHandleService" method="issuedBefore"/>
+    </inAction>
+    <outAction type="spring-bean">
+      <actionHandle bean="simpleFlowHandleService" clazz="org.ifunq.tanzx.tbbpm.machine.simpleflow.SimpleFlowHandleService" method="issuedAfter"/>
+    </outAction>
+  </waitTask>
+</bpm>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<bpm code="org.ifunq.tanzx.tbbpm.statemachine.tanzx_machine02" name="充值业务处理" type="workflow" description="充值业务处理流程">
+  <var name="orderId" dataType="long" inOutType="param"/>
+  <var name="itemCode" dataType="String" inOutType="param"/>
+  <start id="1" tag="start" g="120,16,30,30">
+    <transition g=":-15,20" to="3"/>
+  </start>
+  <end id="2" tag="end" g="138,504,30,30"/>
+  <autoTask id="3" name="账户充值" tag="charge" g="91,78,88,48">
+    <transition g=":-15,20" to="5"/>
+    <action type="spring-bean">
+      <actionHandle bean="orderChargeService" clazz="com.taobao.huijin.billing.charge.OrderChargeService" method="orderCharge">
+        <var name="p1" dataType="long" contextVarName="orderId" inOutType="param"/>
+      </actionHandle>
+    </action>
+  </autoTask>
+  <decision id="5" name="判断业务类型" tag="judge" g="89,168,88,48">
+    <transition name="是分销业务" priority="1" g=":-15,20" to="7"/>
+    <transition expression="itemCode == &apos;INVOICE_CASH&apos;" name="是发票业务" priority="9" g=":-15,20" to="6"/>
+  </decision>
+  <autoTask id="6" name="修改发票状态" tag="invoice" g="200,269,88,48">
+    <transition g=":-15,20" to="8"/>
+    <action type="spring-bean">
+      <actionHandle bean="orderChargeService" clazz="com.taobao.huijin.billing.charge.OrderChargeService" method="doUpDateInvoice">
+        <var name="orderId" description="订单id" dataType="long" contextVarName="orderId" inOutType="param"/>
+      </actionHandle>
+    </action>
+  </autoTask>
+  <autoTask id="7" name="给业务方发送notify" tag="notify" g="7,263,108,58">
+    <transition g=":-15,20" to="8"/>
+    <action type="spring-bean">
+      <actionHandle bean="orderChargeService" clazz="com.taobao.huijin.billing.charge.OrderChargeService" method="chargeNotify">
+        <var name="p1" dataType="long" contextVarName="orderId" inOutType="param"/>
+      </actionHandle>
+    </action>
+  </autoTask>
+  <autoTask id="8" name="置充值订单完成" tag="finishOrder" g="106,394,88,69">
+    <transition g=":-15,20" to="2"/>
+    <action type="spring-bean">
+      <actionHandle bean="orderChargeService" clazz="com.taobao.huijin.billing.charge.OrderChargeService" method="finishChargeOrder">
+        <var name="orderId" dataType="long" contextVarName="orderId" inOutType="param"/>
+      </actionHandle>
+    </action>
+  </autoTask>
+</bpm>

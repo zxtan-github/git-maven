@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans default-autowire="byName">
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="defaultAutoCommit">
+			<value>false</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://192.168.222.129/local_tbbpm?useUnicode=true&amp;characterEncoding=UTF-8</value>
+		</property>
+		<property name="username">
+			<value>tanzx</value>
+		</property>
+		<property name="password">
+			<value>63703127</value>
+		</property>
+		<property name="minIdle">
+			<value>30</value>
+		</property>
+		<property name="maxActive">
+			<value>30</value>
+		</property>
+		<property name="initialSize">
+			<value>30</value>
+		</property>
+	</bean>
+	
+    <bean id="shardManager" class="com.taobao.tbbpm.common.persistence.ShardRuleFactory">
+        <property name="ruleMaps">
+            <map>
+                <entry key="stateMachine">
+                    <value>nstatemachineShardRule</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="nstatemachineShardRule" class="com.taobao.tbbpm.common.persistence.ShardRule">
+        <property name="shard" value="false"/>
+        <property name="dataSource" value="haitao"/>
+    </bean>
+	
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="connectionUtils" class="com.taobao.tbbpm.common.persistence.ConnectionUtils">
+        <property name="dataSource">
+            <ref bean="dataSource"/>
+        </property>
+    </bean>
+    
+    <bean id="bpmDefineDAO" class="com.taobao.tbbpm.define.persistence.impl.BpmDefineDAOImpl" parent="connectionUtils"/>
+    <bean id="bpmDefineQuery" class="com.taobao.tbbpm.define.persistence.impl.BpmDefineQueryImpl" parent="connectionUtils"/>
+
+    <bean id="springTransactionTemplate" class="com.taobao.tbbpm.common.persistence.SpringTransactionTemplate">
+        <property name="transactionManager" ref="transactionManager"/>
+    </bean>
+
+    <bean id="bpmConfig" class="com.taobao.tbbpm.define.BpmDefineConfig">
+        <property name="transactionType" value="springTransactionTemplate"/>
+    </bean>
+
+	<bean id="statemachineConfig" class="com.taobao.tbbpm.statemachine.StateMachineConfig">
+        <property name="dataBaseType" value="mysql"/>
+        <property name="loadDefineType" value="file"/>
+        <property name="intervalTime" value="60"/>
+    </bean>
+
+    <bean id="abstractPersistenceService"
+          class="com.taobao.tbbpm.statemachine.persistence.impl.AbstractPersistenceService">
+        <property name="dataSources">
+            <map>
+                <entry key="haitao">
+                    <ref bean="dataSource"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    
+     <!-- 状态机服务定义 -->
+    <bean id="simpleFolwMachineService" class="org.ifunq.tanzx.tbbpm.machine.simpleflow.SimpleFolwMachineServiceImpl" parent="abstractPersistenceService"/>
+    
+    <bean id="simpleFlowHandleService" class="org.ifunq.tanzx.tbbpm.machine.simpleflow.SimpleFlowHandleServiceImpl"/>
+</beans>
