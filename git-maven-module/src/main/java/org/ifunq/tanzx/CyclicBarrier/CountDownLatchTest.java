@@ -4,7 +4,6 @@ import java.util.concurrent.CountDownLatch;
 
 public class CountDownLatchTest {
     public static void main(String[] args) {
-
         final CountDownLatch latch = new CountDownLatch(3);
         for (int i = 1; i < 4; i++) {
             new Thread() {

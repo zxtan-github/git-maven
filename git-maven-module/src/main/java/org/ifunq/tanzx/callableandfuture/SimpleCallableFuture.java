@@ -25,7 +25,6 @@ public class SimpleCallableFuture {
         executorService2.submit(future2);
         System.out.println(future2.get());
 
-
         ExecutorService executorService3 = Executors.newSingleThreadExecutor();
         Future<Integer> future3 = executorService3.submit(callable);
         System.out.println(future3.get());
