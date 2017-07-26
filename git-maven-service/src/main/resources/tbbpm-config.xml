@@ -10,15 +10,24 @@
 		<property name="defaultAutoCommit">
 			<value>false</value>
 		</property>
-		<property name="url">
-			<value>jdbc:mysql://192.168.222.129/local_tbbpm?useUnicode=true&amp;characterEncoding=UTF-8</value>
-		</property>
-		<property name="username">
-			<value>tanzx</value>
-		</property>
-		<property name="password">
-			<value>63703127</value>
-		</property>
+		<!--<property name="url">-->
+			<!--<value>jdbc:mysql://192.168.222.129/local_tbbpm?useUnicode=true&amp;characterEncoding=UTF-8</value>-->
+		<!--</property>-->
+		<!--<property name="username">-->
+			<!--<value>tanzx</value>-->
+		<!--</property>-->
+		<!--<property name="password">-->
+			<!--<value>63703127</value>-->
+		<!--</property>-->
+        <property name="url">
+            <value>jdbc:mysql://10.32.156.157/recoder?useUnicode=true&amp;characterEncoding=UTF-8</value>
+        </property>
+        <property name="username">
+            <value>sfhaitao</value>
+        </property>
+        <property name="password">
+            <value>sfhaitaodev</value>
+        </property>
 		<property name="minIdle">
 			<value>30</value>
 		</property>
