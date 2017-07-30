@@ -39,11 +39,44 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
-        
-        <dependency>
-            <groupId>com.yiji.openapi.tool</groupId>
-            <artifactId>yijiApi-tool</artifactId>
-            <version>1.0</version>
-        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.alibaba.citrus.tool</groupId>
+                <artifactId>autoconfig-maven-plugin</artifactId>
+                <version>1.2</version>
+                <executions>
+                    <!-- 配置在package phase中运行maven-autoconfig-plugin的autoconfig goal -->
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <id>config</id>
+                        <goals>
+                            <goal>autoconfig</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dest>target/classes</dest>
+                    <descriptors>
+                        <includes>
+                            <include>auto-user.xml</include>
+                        </includes>
+                    </descriptors>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <!-- 打出的jar包中的 MANIFEST.MF 文件中增加 Main-Class 这一项配置，这样就能在命令行中通过 java -jar 来执行打出的jar包 -->
+                        <manifestEntries>
+                            <Main-Class>net.kiminotes.Main</Main-Class>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

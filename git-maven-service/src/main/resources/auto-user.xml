@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <group>
+        <property name="net.kiminotes.value" />
+    </group>
+
+    <script>
+        <generate template="/META-INF/autoconfig/config.properties.vm" destfile="config.properties" charset="utf-8" />
+    </script>
+</config>
