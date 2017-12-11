@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <group>
+        <property name="net.kiminotes.value" required="true"/>
+        <property name="dubbo.registry.url" description="zk地址" />
+        <property name="dubbo.reference.version"  defaultValue="zookeeper://10.32.156.150:2180" />
+        <property name="dubbo.export.version" />
+        <property name="dubbo.export.host" >
+            <validator name="hostExist" />
+        </property>
+    </group>
+
+    <script>
+        <generate template="/user.properties" charset="utf-8" />
+        <generate template="/META-INF/autoconfig/config.properties.vm" destfile="config.properties" charset="utf-8" />
+    </script>
+</config>

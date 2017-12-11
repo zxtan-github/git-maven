@@ -1,1 +1,5 @@
-key = ${net_kiminotes_value}
+dubbo.registry.url=${dubbo_registry_url}
+dubbo.reference.version=${dubbo.reference.version}
+dubbo.export.version=${dubbo.export.version}
+dubbo.export.timeout=${dubbo_export_timeout}
+dubbo.export.host=${dubbo_export_host}

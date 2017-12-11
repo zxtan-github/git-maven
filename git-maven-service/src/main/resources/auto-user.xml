@@ -2,9 +2,13 @@
 <config>
     <group>
         <property name="net.kiminotes.value" />
+        <property name="dubbo.registry.url" />
+        <property name="dubbo.reference.version" />
+        <property name="dubbo.export.host" />
     </group>
 
     <script>
+        <generate template="/user.properties" charset="utf-8" />
         <generate template="/META-INF/autoconfig/config.properties.vm" destfile="config.properties" charset="utf-8" />
     </script>
 </config>
