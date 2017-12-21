@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="carServiceTarget" class="org.ifunq.tanzx.spring.AOP.CarServiceImpl"/>
+    <bean id="myMethodInterceptor1" class="org.ifunq.tanzx.spring.AOP.MethodInterceptor.MyMethodInterceptor1"/>
+    <bean id="myMethodInterceptor2" class="org.ifunq.tanzx.spring.AOP.MethodInterceptor.MyMethodInterceptor2"/>
+
+    <bean id="carService" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="proxyInterfaces" value="org.ifunq.tanzx.spring.AOP.CarService"/>
+        <property name="target" ref="carServiceTarget"/>
+        <property name="interceptorNames">
+            <list>
+                <value>myMethodInterceptor2</value>
+                <value>myMethodInterceptor1</value>
+            </list>
+        </property>
+    </bean>
+</beans>

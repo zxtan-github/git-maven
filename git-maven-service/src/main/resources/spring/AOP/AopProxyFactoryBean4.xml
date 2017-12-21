@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="carServiceTarget" class="org.ifunq.tanzx.spring.AOP.CarServiceImpl"/>
+    <bean id="myAdvice1" class="org.ifunq.tanzx.spring.AOP.MethodInterceptor.MyAdvice1"/>
+    <bean id="myAdvice2" class="org.ifunq.tanzx.spring.AOP.MethodInterceptor.MyAdvice2"/>
+
+    <bean id="adapterRegistry" class="org.ifunq.tanzx.spring.AOP.MethodInterceptor.other.MyAdvisorAdapterRegistry" />
+    <bean id="chainFactory" class="org.ifunq.tanzx.spring.AOP.MethodInterceptor.other.MyAdvisorChainFactory" />
+
+    <bean id="carService" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="advisorAdapterRegistry" ref="adapterRegistry"/>
+        <property name="advisorChainFactory" ref="chainFactory"/>
+        <property name="proxyInterfaces" value="org.ifunq.tanzx.spring.AOP.CarService"/>
+        <property name="target" ref="carServiceTarget"/>
+        <property name="interceptorNames">
+            <list>
+                <value>myAdvice1</value>
+                <value>myAdvice2</value>
+            </list>
+        </property>
+    </bean>
+</beans>
