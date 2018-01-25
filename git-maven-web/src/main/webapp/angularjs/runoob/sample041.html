@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>AngularJS指令-重复HTML元素</title>
+        <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    </head>
+    <body>
+        <div ng-app="" ng-init="names=[{name:'Jani',country:'Norway'},
+                                       {name:'Hege',country:'Sweden'},
+                                       {name:'Kai',country:'Denmark'}]">
+            <p>循环人名和国家</p>
+            <li ng-repeat="x in names">
+                {{x.name}},{{x.country}}
+            </li>
+        </div>
+    </body>
+</html>

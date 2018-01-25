@@ -15,7 +15,11 @@ class People {
 def p2 = new People(["name":"tanzongxi","age":28])
 println p2.write();
 println p2.metaClass;
+println People.metaClass;
 People.metaClass.say = { "say hello" }
-People.metaClass.zzz = { "say zzz" }
-p2.metaClass.methods.each { println it.name }
-p2.say();
+People.metaClass.zzz = { delegate.write() }
+People.metaClass.methods.each { println it.name }
+p3 = new People();
+println p3.say();
+println p3.zzz();
+println p2.say();

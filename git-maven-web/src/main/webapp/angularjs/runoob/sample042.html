@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>AngularJS指令-创建自定义的指令</title>
+        <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    </head>
+    <script>
+        var app = angular.module("myApp", []);
+        app.directive("runoobDirective", function() {
+            return {
+                // restrict : "M",
+                // replace : true,
+                // restrict : "C",
+                template : "<h1>自定义指令!</h1>"
+            };
+        });
+    </script>
+    <body>
+        <div ng-app="myApp">
+            <!-- 元素名 -->
+            <runoob-directive></runoob-directive>
+            <!-- 属性 -->
+            <p runoob-directive></p>
+            <!-- 类名class -->
+            <p class="runoob-directive"></p>
+            <!-- 注释 -->
+            <!-- directive: runoob-directive -->
+        </div>
+    </body>
+</html>

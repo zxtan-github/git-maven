@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>AngularJS指令-数据绑定</title>
+        <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    </head>
+    <body>
+        <!-- ng-init赋初值firstName，包括input和{{}} -->
+        <div ng-app="" ng-init="firstName='John'">
+            <p>在输入框中尝试输入：</p>
+            <!-- input可以修改firstName的值 -->
+            <p>姓名：<input type="text" ng-model="firstName"></p>
+            <p>你输入的为： {{ firstName }}</p>
+        </div>
+    </body>
+</html>

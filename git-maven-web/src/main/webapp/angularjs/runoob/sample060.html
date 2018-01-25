@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS Scope(作用域)</title>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body>
+<div ng-app="myApp" ng-controller="myCtr">
+    名: <input type="text" ng-model="firstName"><br>
+    姓: <input type="text" ng-model="lastName"><br>
+    <br>
+    姓名: {{fullName()}}
+</div>
+</body>
+<script>
+    var app = angular.module("myApp",[])
+    app.controller('myCtr', function ($scope) {
+            $scope.firstName = "tan"
+            $scope.lastName = "zongxi"
+            $scope.fullName = function () {
+                return $scope.firstName + $scope.lastName
+            }
+        }
+    )
+</script>
+</html>

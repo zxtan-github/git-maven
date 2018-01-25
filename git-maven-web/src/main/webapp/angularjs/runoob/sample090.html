@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS 服务</title>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="myCtr">
+        {{myUrl}}
+    </div>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtr', function($scope, $location) {
+            $scope.myUrl = $location.absUrl();
+        });
+    </script>
+</body>
+</html>

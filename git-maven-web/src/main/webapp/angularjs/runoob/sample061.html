@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS RootScope(根作用域)</title>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="myApp" >
+        <div ng-controller="myCtrlFirst">
+            myCtrlFirst姓名: {{firstName + " " + lastName}} 全名: {{fullName}}
+        </div>
+        <div ng-controller="myCtrlSecond">
+            myCtrlSecond姓名: {{firstName + " " + lastName}} 全名: {{fullName}}
+        </div>
+        rootScope姓名: {{firstName + " " + lastName}} 全名: {{fullName}}
+    </div>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrlFirst', function($scope,$rootScope) {
+            $scope.firstName= "John";
+            $scope.lastName= "Doe";
+            $rootScope.firstName="Tan";
+            $rootScope.lastName= "Zongxi";
+            $rootScope.fullName= "Tan Zongxi";
+        });
+        app.controller('myCtrlSecond', function($scope,$rootScope) {
+            $scope.firstName= "Luck";
+            $scope.lastName= "Ten";
+        });
+    </script>
+</body>
+</html>

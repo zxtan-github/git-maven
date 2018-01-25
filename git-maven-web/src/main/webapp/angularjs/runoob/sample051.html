@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ng-model指令-修改验证效果</title>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+    <style>
+        /* 验证成立后（不一定是失败），所在html元素效果 */
+        input.ng-invalid {
+            /* 如果不邮箱成立，input元素背景色变蓝 */
+            background-color: blue;
+        }
+    </style>
+    <body>
+        <form ng-app="" name="myForm">
+            <p>邮箱：<input type="email" name="myAddress" ng-model="myAddressText"></p>
+        </form>
+    </body>
+</html>

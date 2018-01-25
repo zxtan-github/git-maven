@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS标准简单示例</title>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="myCtrl" ng-init="quantity=1;cost=5">
+        名: <input type="text" ng-model="firstName"><br>
+        姓: <input type="text" ng-model="lastName"><br>
+        <br>
+        姓名: {{firstName + " " + lastName}}
+        <br>
+        quantity+cost: {{quantity + cost}}
+    </div>
+
+    <script>
+        // ng-init可以设定变量初始值
+        // 如果ng-app的名称不为空，就必须加入angular.module中
+        var app = angular.module('myApp', []);
+        // 如果ng-controller存在就必须实例化一个myCtrl对象，使用new创建，这里的函数类容只是对firstName和lastName符初值
+        app.controller('myCtrl', function ($scope) {
+            $scope.firstName = "John";
+            $scope.lastName = "Doe";
+        });
+    </script>
+</body>
+</html>

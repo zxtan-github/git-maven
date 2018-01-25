@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS 过滤器</title>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="" ng-init="names=[{name:'Jani',country:'Norway'},
+                                   {name:'Hege',country:'Sweden'},
+                                   {name:'Kai', country:'Denmark'}]">
+        <input type="text" ng-model="myFilter">
+        <p ng-repeat="x in names | filter:myFilter | orderBy:'country'">
+        <!--<p ng-repeat="x in names | filter:myFilter | orderBy:x.country"> 第二种写法-->
+            {{x.name | uppercase}}, {{x.country}}
+        </p>
+    </div>
+</body>
+</html>

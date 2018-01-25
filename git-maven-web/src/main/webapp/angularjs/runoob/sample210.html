@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS Bootstrap</title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body ng-app="myApp">
+    <div ng-controller="MyController"></div>
+    <div ng-controller="MimeController"></div>
+    <script>
+        var mainApp = angular.module("myApp", []);
+        mainApp.value('alertXXX', function (name) {
+            alert(name + 'XXX')
+        });
+        mainApp.service('alertYYY', function(alertXXX) {
+            alertXXX('tancy');
+            return alertXXX;
+        });
+        mainApp.factory('alertZZZ', function(alertXXX) {
+            alertXXX('tancy02');
+            return alertXXX;
+        });
+        mainApp.controller('MyController', function(alertXXX,alertYYY,alertZZZ) {
+            alertXXX('tanzx');
+            alertYYY('tanrx')
+            alertZZZ('tangy')
+        });
+        mainApp.controller('MimeController', function(alertXXX,alertYYY,alertZZZ) {
+            alertXXX('tanzx');
+            alertYYY('tanrx')
+            alertZZZ('tangy')
+        });
+    </script>
+</body>
+</html>

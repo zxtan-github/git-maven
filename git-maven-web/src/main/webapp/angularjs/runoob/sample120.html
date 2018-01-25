@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS 表格</title>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="myCtr">
+        <table>
+            <tr ng-repeat="x in cars">
+                <td ng-if="$odd" style="background-color:#f1f1f1">{{ $index+1 }}</td>
+                <td ng-if="$odd" style="background-color:#f1f1f1">{{ x.brand }}</td>
+                <td ng-if="$odd" style="background-color:#f1f1f1">{{ x.model }}</td>
+                <td ng-if="$odd" style="background-color:#f1f1f1">{{ x.color }}</td>
+                <td ng-if="$even">{{ $index+1 }}</td>
+                <td ng-if="$even">{{ x.brand }}</td>
+                <td ng-if="$even">{{ x.model }}</td>
+                <td ng-if="$even">{{ x.color }}</td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtr', function($scope) {
+            $scope.cars = {
+                car01 : {brand : "Ford", model : "Mustang", color : "red"},
+                car02 : {brand : "Fiat", model : "500", color : "white"},
+                car03 : {brand : "Volvo", model : "XC90", color : "black"},
+                car04 : {brand : "BMW", model : "X6", color : "red"}
+            }
+        });
+    </script>
+</body>
+</html>

@@ -3,10 +3,6 @@ package org.ifunq.tanzx.groovy.simple
 class Person {
     def name;
     def age;
-    Person (Map<String, Object> args) {
-        this.name = args["name"];
-        this.age = args["age"];
-    }
     @Override
     String toString() {
         return "name:${name} age:${age}"

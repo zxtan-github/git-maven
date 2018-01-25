@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS 过滤器</title>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="myCtr">
+        姓名: {{fullName() | uppercase}}
+        <br>
+        {{ 9 + 3 | currency}}
+    </div>
+</body>
+<script>
+    var app = angular.module("myApp",[])
+    app.controller('myCtr', function ($scope) {
+            $scope.firstName = "tan"
+            $scope.lastName = "zongxi"
+            $scope.fullName = function () {
+                return $scope.firstName + $scope.lastName
+            }
+        }
+    )
+</script>
+</html>

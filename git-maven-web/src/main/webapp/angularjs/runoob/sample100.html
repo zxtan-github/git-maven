@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS XMLHttpRequest</title>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="myCtr">
+    </div>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtr', function($scope, $http) {
+            // 标准写法
+            $http({
+                // 简单的 GET 请求，可以改为 POST
+                method: 'GET',
+                // method: 'POST',method: 'JSONP',
+                url: '/someUrl',
+                data: ''
+            }).then(function successCallback(response) {
+                // 请求成功执行代码
+            }, function errorCallback(response) {
+                // 请求失败执行代码
+            });
+
+            // 简单写法
+            $http.get('/someUrl', config).then(successCallback, errorCallback);
+            $http.post('/someUrl', data, config).then(successCallback, errorCallback);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>ng-model指令-验证输入</title>
+        <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    </head>
+    <body>
+        <form ng-app="" name="myForm">
+            <p>邮箱：<input type="email" name="myAddress" ng-model="myAddressText"></p>
+            <span ng-show="myForm.myAddress.$error.myAddress">不是一个合法的邮箱地址</span>
+            <p>编辑邮箱地址，查看状态的改变。</p>
+            <h1>状态</h1>
+            <p>Valid: {{myForm.myAddress.$valid}} (如果输入的值是合法的则为 true)。</p>
+            <p>Dirty: {{myForm.myAddress.$dirty}} (如果值改变则为 true)。</p>
+            <p>Touched: {{myForm.myAddress.$touched}} (如果通过触屏点击则为 true)。</p>
+        </form>
+    </body>
+</html>

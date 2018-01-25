@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS HTML DOM</title>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="" ng-init="hour=15;flg=true">
+        <button ng-disabled="flg">不可用按钮</button>
+        <p ng-show="true">ng-show是可见的。</p>
+        <p ng-show="false">ng-show是不可见的。</p>
+        <p ng-show="hour > 12">hour > 12</p>
+        <p ng-hide="flg">ng-hide是不可见的。</p>
+        <p ng-hide="!flg">ng-hide是可见的。</p>
+    </div>
+</body>
+</html>
