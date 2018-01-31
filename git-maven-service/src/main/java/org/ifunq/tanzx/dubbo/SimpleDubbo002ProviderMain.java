@@ -10,7 +10,7 @@ import java.io.IOException;
  * @author tanzx [tanzongxi@ifunq.com]
  * @date 2018-01-29 18:18
  **/
-public class SimpleDubboProvider002Main {
+public class SimpleDubbo002ProviderMain {
     public static void main(String[] args) throws IOException {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("dubbo/SimpleDubbo002Provider.xml");
         context.start();
