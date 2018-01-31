@@ -1,4 +1,4 @@
-package org.ifunq.tanzx.groovy.simple
+package org.ifunq.tanzx.gy.simple
 
 def collection = [1, "tzx", 2L, true];
 collection << false

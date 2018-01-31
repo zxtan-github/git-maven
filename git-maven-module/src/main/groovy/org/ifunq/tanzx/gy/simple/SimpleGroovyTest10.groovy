@@ -1,4 +1,4 @@
-package org.ifunq.tanzx.groovy.simple
+package org.ifunq.tanzx.gy.simple
 
 class People {
     def name;

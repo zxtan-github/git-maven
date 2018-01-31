@@ -1,4 +1,4 @@
-package org.ifunq.tanzx.groovy.simple
+package org.ifunq.tanzx.gy.simple
 
 def var="hello world"
 println var

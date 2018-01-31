@@ -1,4 +1,4 @@
-package org.ifunq.tanzx.groovy.simple
+package org.ifunq.tanzx.gy.simple
 
 for(i = 0; i < 5; i++);
 for(i in 0..4);

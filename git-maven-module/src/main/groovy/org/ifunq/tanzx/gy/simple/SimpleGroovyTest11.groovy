@@ -1,3 +1,5 @@
+package org.ifunq.tanzx.gy.simple
+
 class Father {
     // 闭包
     def write = {
@@ -18,4 +20,15 @@ def father = new Father();
 def son = new Son();
 father.write.delegate = son;
 father.write()
+//father.write.this.realyWrite()
+father.write.owner.realyWrite()
+father.write.delegate.realyWrite()
 
+def fc = {
+    println("Fc Closure...")
+}
+
+def mc() {
+    println("Mc Closure...")
+}
+fc()

@@ -1,4 +1,4 @@
-package org.ifunq.tanzx.groovy.simple
+package org.ifunq.tanzx.gy.simple
 
 def map = ["id": 1, "name": "tcy", "isMan": false];
 map.each({ key, value ->
