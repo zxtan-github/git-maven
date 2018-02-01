@@ -21,21 +21,26 @@ public class EchoServer {
     public static void main(String[] args) throws InterruptedException {
 
         final EchoServerHandler echoServerHandler = new EchoServerHandler();
+        // 通过nio方式来接收连接和处理连接
         EventLoopGroup group = new NioEventLoopGroup();
-        ServerBootstrap b = new ServerBootstrap();
+        ServerBootstrap b = new ServerBootstrap(); // 引导辅助程序
         b.group(group)
             // 指定所使用的NIO传输Channel
+            // 设置nio类型的channel
             .channel(NioServerSocketChannel.class)
             .localAddress(new InetSocketAddress(8090))
             .childHandler(new ChannelInitializer<SocketChannel>() {
             protected void initChannel(SocketChannel socketChannel) throws Exception {
                 // 对于所有客户端连接来说，都会使用同一个EchoServerHandler
+                // pipeline管理channel中的Handler，在channel队列中添加一个handler来处理业务
                 socketChannel.pipeline().addLast(echoServerHandler);
             }
         });
+        // 配置完成，开始绑定server，通过调用sync同步方法阻塞直到绑定成功
         ChannelFuture f = b.bind().sync();
-        f.channel().close().sync();
-        // 关闭EventLoopGroup，释放所有资源
+        // 应用程序会一直等待，直到channel关闭
+        f.channel().closeFuture().sync();
+        // 关闭EventLoopGroup线程池，释放所有资源
         group.shutdownGracefully().sync();
     }
 }
