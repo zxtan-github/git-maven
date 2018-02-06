@@ -35,9 +35,12 @@ public class SimpleChatClient {
                     .handler(new SimpleChatClientInitializer());
             Channel channel = bootstrap.connect(host, port).sync().channel();
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-            while(true){
-                channel.writeAndFlush(in.readLine() + "\r\n");
+            String msg = "";
+            while(!"exit".equals(msg)){
+                msg = in.readLine();
+                channel.writeAndFlush(msg + "\r\n");
             }
+            channel.closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

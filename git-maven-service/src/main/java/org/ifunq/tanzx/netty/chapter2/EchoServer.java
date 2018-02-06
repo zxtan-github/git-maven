@@ -39,6 +39,7 @@ public class EchoServer {
         // 配置完成，开始绑定server，通过调用sync同步方法阻塞直到绑定成功
         ChannelFuture f = b.bind().sync();
         // 应用程序会一直等待，直到channel关闭
+        // 这是一段阻塞的代码，除非链路断了，否则是不会终止的，我们可以在handler中手动关闭，达到关闭客户端的效果
         f.channel().closeFuture().sync();
         // 关闭EventLoopGroup线程池，释放所有资源
         group.shutdownGracefully().sync();

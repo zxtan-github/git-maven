@@ -1,6 +1,7 @@
 package org.ifunq.tanzx.netty.SampleChat;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -42,6 +43,9 @@ public class SimpleChatServerHandler extends SimpleChannelInboundHandler<String>
             } else {
                 channel.writeAndFlush("[you]" + s + "\n");
             }
+        }
+        if ("exit".equals(s)) {
+            incoming.writeAndFlush("exit").addListener(ChannelFutureListener.CLOSE);
         }
     }
 
