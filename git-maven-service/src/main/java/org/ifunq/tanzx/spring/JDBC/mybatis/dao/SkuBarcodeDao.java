@@ -1,6 +1,7 @@
 package org.ifunq.tanzx.spring.JDBC.mybatis.dao;
 
 import org.ifunq.tanzx.spring.JDBC.mybatis.DO.SkuBarcodeDO;
+import org.ifunq.tanzx.spring.JDBC.readWriteSeparate.MyDataSource;
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -35,6 +36,7 @@ public interface SkuBarcodeDao {
      * @param entity 要保存的实体对象
      * @return
      */
+    @MyDataSource("write")
     public int update(SkuBarcodeDO entity) throws DataAccessException;
 
     /**
@@ -52,6 +54,7 @@ public interface SkuBarcodeDao {
      * @param pk 主键
      * @return
      */
+    @MyDataSource("read")
     public SkuBarcodeDO getById(Long pk) throws DataAccessException;
 
     /**

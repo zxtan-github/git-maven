@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd"
+       default-lazy-init="true">
+
+    <!-- 只读数据源 -->
+    <bean id="dataSourceReadOnly" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.sqlite.JDBC" />
+        <property name="url" value="jdbc:sqlite::resource:file:/D:/development/Pycharm/PycharmProjects/awesome_static/db.sqlite3" />
+    </bean>
+
+    <!-- 写数据源 -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.sqlite.JDBC" />
+        <property name="url" value="jdbc:sqlite::resource:file:/D:/development/IDEA/git-projects/git-maven/git-maven-service/sqlite/git-maven-sqlite.db" />
+    </bean>
+
+    <!-- 动态数据源 -->
+    <bean id="routingDataSource" class="org.ifunq.tanzx.spring.JDBC.readWriteSeparate.DynamicDataSource">
+        <property name="targetDataSources">
+            <map>
+                <entry key="dataSource" value-ref="dataSource"/>
+                <entry key="READ_ONLY" value-ref="dataSourceReadOnly"/>
+            </map>
+        </property>
+        <property name="defaultTargetDataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 生成mybatis需要的SqlSessionFactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="routingDataSource" />
+        <!-- 自动扫描mapping.xml文件 -->
+        <property name="mapperLocations" value="classpath:spring/JDBC/mybatis/sqlmap/sc_sku_barcode_sqlmap.xml" />
+    </bean>
+
+    <!-- 扫描Dao，自动生成Mapper(Dao)的代理对象 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="org.ifunq.tanzx.spring.JDBC.*.dao" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    </bean>
+
+    <!-- 方法前置处理器 -->
+    <bean id="myDataSourceAdvice"  class="org.ifunq.tanzx.spring.JDBC.readWriteSeparate.MyDataSourceAdvice" ></bean>
+
+    <!-- 默认通知器，配置一个通知 -->
+    <bean id="defaultAdvisor1" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+        <constructor-arg name="advice" ref="myDataSourceAdvice"/>
+    </bean>
+
+    <bean id="rmpAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <!--patterns,如果有多个指定的值的话，可以使用，隔开，例如value=".*add,.*delete"-->
+        <property name="patterns" value=".*add"/>
+        <property name="advice" ref="myDataSourceAdvice"/>
+    </bean>
+
+    <!--根据切面中生成信息生成代理-->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+</beans>
