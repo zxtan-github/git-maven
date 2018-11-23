@@ -16,7 +16,7 @@
             <list>
                 <value>carServiceBeforeAdvice</value>
                 <value>carServiceAfterAdvice</value>
-                <!--<value>carServiceAroundAdvice</value>-->
+                <value>carServiceAroundAdvice</value>
                 <value>carServiceThrowsAdvice</value>
             </list>
         </property>

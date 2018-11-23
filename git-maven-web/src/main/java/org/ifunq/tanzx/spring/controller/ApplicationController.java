@@ -44,5 +44,7 @@ public class ApplicationController implements ApplicationContextAware{
         System.out.println(applicationContext.getDisplayName());
         System.out.println(applicationContext.getBeanDefinitionCount());
         System.out.println(Arrays.asList(applicationContext.getBeanDefinitionNames()));
+        System.out.println("Parent:"+applicationContext.getParent().getDisplayName());
+
     }
 }

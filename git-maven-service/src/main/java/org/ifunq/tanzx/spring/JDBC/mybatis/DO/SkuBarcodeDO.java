@@ -118,8 +118,13 @@ public class SkuBarcodeDO  {
     public String toString() {
         return "SkuBarcodeDO{" +
                 "id=" + id +
-                ", skuId='" + skuId + '\'' +
+                ", skuId=" + skuId +
                 ", barcode='" + barcode + '\'' +
+                ", gmtCreate='" + gmtCreate + '\'' +
+                ", createBy='" + createBy + '\'' +
+                ", gmtModified='" + gmtModified + '\'' +
+                ", modifiedBy='" + modifiedBy + '\'' +
+                ", isDelete=" + isDelete +
                 '}';
     }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 在Spring的httpInvoker服务 -->
+    <bean id="httpInvokerUserService"  class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <!--需要发布的实现类 -->
+        <property name="serviceUrl" value="http://localhost:8080/httpInvokerUserService.service" />
+        <property name="serviceInterface" value="org.ifunq.tanzx.spring.service.UserService" />
+    </bean>
+
+</beans>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 在Spring的RMI服务 -->
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <!--需要发布的实现类 -->
+        <property name="service" ref="userService" />
+        <property name="serviceName" value="httpInvokerUserService" />
+        <property name="serviceInterface" value="org.ifunq.tanzx.spring.service.UserService" />
+        <property name="registryPort" value="1199" />
+    </bean>
+
+    <bean id="userService" class="org.ifunq.tanzx.spring.service.UserServiceImpl" />
+</beans>

@@ -1,6 +1,5 @@
 package org.ifunq.tanzx.spring.JDBC;
 
-import org.ifunq.tanzx.spring.JDBC.mybatis.DO.SkuBarcodeDO;
 import org.ifunq.tanzx.spring.JDBC.mybatis.dao.SkuBarcodeDao;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -17,11 +16,12 @@ public class JdbcMybatisTest01 {
         System.out.println(Arrays.asList(context.getBeanDefinitionCount()));
         System.out.println(Arrays.asList(context.getBeanDefinitionNames()));
         SkuBarcodeDao skuBarcodeDao = (SkuBarcodeDao) context.getBean("skuBarcodeDao");
-        SkuBarcodeDO skuBarcodeDO = new SkuBarcodeDO();
-        skuBarcodeDO.setSkuId(1001l);
-        skuBarcodeDO.setBarcode("BK1101");
-        skuBarcodeDO.setCreateBy("tanzongxi");
-        skuBarcodeDO.setModifiedBy("tanzongxi");
-        skuBarcodeDao.insert(skuBarcodeDO);
+        skuBarcodeDao.getById(2l);
+//        SkuBarcodeDO skuBarcodeDO = new SkuBarcodeDO();
+//        skuBarcodeDO.setSkuId(1001l);
+//        skuBarcodeDO.setBarcode("BK1101");
+//        skuBarcodeDO.setCreateBy("tanzongxi");
+//        skuBarcodeDO.setModifiedBy("tanzongxi");
+//        skuBarcodeDao.insert(skuBarcodeDO);
     }
 }

@@ -3,7 +3,9 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="myMessageAware" class="org.ifunq.tanzx.spring.BeanPostProcessor.MyMessageAware"></bean>
-    <!--<bean id="messageSource" class="org.springframework.context.support.StaticMessageSource"></bean>-->
+    <bean id="userService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+        <property name="serviceUrl" value="rmi://localhost:1199/httpInvokerUserService" />
+        <property name="serviceInterface" value="org.ifunq.tanzx.spring.service.UserService" />
+    </bean>
 
 </beans>

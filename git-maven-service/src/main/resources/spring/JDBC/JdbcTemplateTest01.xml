@@ -11,16 +11,4 @@
         <!--<property name="url" value="jdbc:sqlite::resource:sqlite/git-maven-sqlite.db" />-->
     </bean>
 
-    <!-- 生成mybatis需要的SqlSessionFactory -->
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <!-- 自动扫描mapping.xml文件 -->
-        <property name="mapperLocations" value="classpath:spring/JDBC/mybatis/sqlmap/*.xml" />
-    </bean>
-
-    <!-- 扫描Dao，自动生成Mapper(Dao)的代理对象 -->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="org.ifunq.tanzx.spring.JDBC.*.dao" />
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
-    </bean>
 </beans>
