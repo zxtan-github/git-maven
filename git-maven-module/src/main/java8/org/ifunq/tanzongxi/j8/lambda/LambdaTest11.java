@@ -1,4 +1,4 @@
-package org.ifunq.tanzongxi.lambda;
+package org.ifunq.tanzongxi.j8.lambda;
 
 import java.util.*;
 import java.util.function.BiConsumer;

@@ -1,4 +1,4 @@
-package org.ifunq.tanzongxi.lambda;
+package org.ifunq.tanzongxi.j8.lambda;
 
 public class MyCar implements Vehicle, Car {
     // 当实现的接口中包含两个同样的方法时（不管有没有默认实现），必须复写定义方法
