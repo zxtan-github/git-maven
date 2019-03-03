@@ -8,6 +8,6 @@ package org.ifunq.tanzx.spring.bean;
  **/
 public class SpringBean003 {
     public void sayNihao() {
-        System.out.println("SpringBean001 sayNihao...");
+        System.out.println("SpringBean003 sayNihao...");
     }
 }
