@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <!--<bean class="org.springframework.web.servlet.mvc.support.ControllerBeanNameHandlerMapping" />-->
+    <!--<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />-->
+
+    <!-- 配置Url和Controller、Servlet、HttpRequestHandler、HandlerMethod的映射 -->
+    <bean name="/hello" class="org.ifunq.tanzx.spring.controller.SimpleUrlController" />
+    <bean name="/servlet" class="org.ifunq.tanzx.spring.controller.SimpleServlet" />
+    <bean name="/httpRequestHandler" class="org.ifunq.tanzx.spring.controller.SimpleHttpRequestHandler" />
+
+    <!-- BeanNameUrlHandlerMapping上面配置普通Java类 -->
+    <bean name="/simpleSpringBean02" class="org.ifunq.tanzx.spring.bean.SimpleSpringBean02" />
+
+    <!-- @Controller和@RequestMapping组合的MethodHandler -->
+    <bean class="org.ifunq.tanzx.spring.controller.SimpleAnnotationMethodHandler" />
+
+    <!-- SimpleUrlHandlerMapping上面配置普通Java类 -->
+    <bean name="user" class="org.ifunq.tanzx.spring.bean.User" />
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="user">user</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- 由于配置了自己的HandlerMapping，DispatcherServlet.properties上面的默认必须自己再手动添加上去 -->
+    <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+
+
+    <!-- 配置自己的HandlerAdapter,添加对SimpleSpringBean02的支持 -->
+    <bean class="org.ifunq.tanzx.spring.HandlerAdapter.MyHandlerAdapter"/>
+    <!-- 由于配置了自己的HandlerAdapter，DispatcherServlet.properties上面的默认必须自己再手动添加上去 -->
+    <bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter" />
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+    <!-- 视图解析器 -->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 前缀 -->
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <!-- 后缀 -->
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+
+
+</beans>
