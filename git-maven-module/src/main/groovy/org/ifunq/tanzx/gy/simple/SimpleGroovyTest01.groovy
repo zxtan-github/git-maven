@@ -1,5 +1,6 @@
 package org.ifunq.tanzx.gy.simple
 
+
 def var="hello world"
 println var
 println var.class
