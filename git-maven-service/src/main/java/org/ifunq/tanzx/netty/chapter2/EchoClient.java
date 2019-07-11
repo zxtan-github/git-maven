@@ -1,14 +1,13 @@
 package org.ifunq.tanzx.netty.chapter2;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
-import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.string.StringEncoder;
 
-import java.net.InetSocketAddress;
+import java.util.Date;
 
 /**
  * @author tanzx [tanzongxi@ifunq.com]
@@ -17,19 +16,27 @@ import java.net.InetSocketAddress;
 public class EchoClient {
 
     public static void main(String[] args) throws InterruptedException {
-        EventLoopGroup group = new NioEventLoopGroup();
         Bootstrap bootstrap = new Bootstrap();
-        bootstrap.group(group);
-        bootstrap.channel(NioSocketChannel.class);
-        bootstrap.remoteAddress(new InetSocketAddress("localhost",8090));
-        bootstrap.handler(new ChannelInitializer<SocketChannel>() {
-            protected void initChannel(SocketChannel socketChannel) throws Exception {
-                socketChannel.pipeline().addLast(new EchoClinetHandler());
-            }
-        });
-        ChannelFuture f = bootstrap.connect().sync();
-        f.channel().closeFuture().sync();
+        NioEventLoopGroup group = new NioEventLoopGroup();
+
+        bootstrap.group(group)
+                .channel(NioSocketChannel.class)
+                .handler(new ChannelInitializer<Channel>() {
+                    @Override
+                    protected void initChannel(Channel ch) {
+                        ch.pipeline().addLast(new StringEncoder());
+                    }
+                });
+
+        Channel channel = bootstrap.connect("localhost", 8090).channel();
+
+        while (true) {
+            channel.writeAndFlush(new Date() + ": hello world!");
+            Thread.sleep(2000);
+        }
+        //f.closeFuture().sync();
         // 关闭EventLoopGroup线程池，释放所有资源
-        group.shutdownGracefully().sync();
+        // group.shutdownGracefully().sync();
+        // System.out.println("shutdownGracefully");
     }
 }

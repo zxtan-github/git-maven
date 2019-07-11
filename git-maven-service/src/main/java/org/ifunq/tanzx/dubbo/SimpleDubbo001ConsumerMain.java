@@ -37,6 +37,7 @@ public class SimpleDubbo001ConsumerMain {
         // reference.setVersion("1.0.0");
         // 声明为泛化接口
         reference.setGeneric(true);
+        reference.setUrl("dubbo://localhost:20880");
 
         ApplicationConfig applicationConfig = (ApplicationConfig) context.getBean("consumer001");
         reference.setApplication(applicationConfig);
@@ -79,6 +80,6 @@ public class SimpleDubbo001ConsumerMain {
                 new Object[] {personList, "tangyan"});
         System.out.println(personListResult);
 
-        // System.in.read();
+         System.in.read();
     }
 }

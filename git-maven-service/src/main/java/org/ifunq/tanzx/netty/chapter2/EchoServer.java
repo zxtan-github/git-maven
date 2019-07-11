@@ -1,12 +1,11 @@
 package org.ifunq.tanzx.netty.chapter2;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.string.StringDecoder;
 
 import java.net.InetSocketAddress;
 
@@ -25,17 +24,21 @@ public class EchoServer {
         EventLoopGroup group = new NioEventLoopGroup();
         ServerBootstrap b = new ServerBootstrap(); // 引导辅助程序
         b.group(group)
-            // 指定所使用的NIO传输Channel
-            // 设置nio类型的channel
-            .channel(NioServerSocketChannel.class)
-            .localAddress(new InetSocketAddress(8090))
-            .childHandler(new ChannelInitializer<SocketChannel>() {
-            protected void initChannel(SocketChannel socketChannel) throws Exception {
-                // 对于所有客户端连接来说，都会使用同一个EchoServerHandler
-                // pipeline管理channel中的Handler，在channel队列中添加一个handler来处理业务
-                socketChannel.pipeline().addLast(echoServerHandler);
-            }
-        });
+                // 指定所使用的NIO传输Channel
+                // 设置nio类型的channel
+                .channel(NioServerSocketChannel.class)
+                .localAddress(new InetSocketAddress(8090))
+                .childHandler(new ChannelInitializer<SocketChannel>() {
+                    protected void initChannel(SocketChannel socketChannel) throws Exception {
+                        socketChannel.pipeline().addLast(new StringDecoder());
+                        socketChannel.pipeline().addLast(new SimpleChannelInboundHandler<String>() {
+                            @Override
+                            protected void channelRead0(ChannelHandlerContext ctx, String msg) {
+                                System.out.println(msg);
+                            }
+                        });
+                    }
+                });
         // 配置完成，开始绑定server，通过调用sync同步方法阻塞直到绑定成功
         ChannelFuture f = b.bind().sync();
         // 应用程序会一直等待，直到channel关闭

@@ -13,6 +13,7 @@
         <module>git-maven-service</module>
         <module>git-maven-api</module>
         <module>git-maven-module</module>
+        <module>customize-plugin</module>
     </modules>
 
     <dependencies>

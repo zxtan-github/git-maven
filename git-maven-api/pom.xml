@@ -11,5 +11,32 @@
 
     <artifactId>git-maven-api</artifactId>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.ifunq.tanzx</groupId>
+                <artifactId>customize-plugin</artifactId>
+                <version>1.0</version>
 
+                <!-- 设置插件参数 -->
+                <configuration>
+                    <msg>hello plugin</msg>
+                    <options>
+                        <options>one</options>
+                        <options>two</options>
+                    </options>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>mojo01</goal>
+
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
