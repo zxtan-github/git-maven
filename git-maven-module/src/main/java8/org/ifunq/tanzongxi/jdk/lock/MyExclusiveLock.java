@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 import java.util.concurrent.locks.Condition;
 
-public class MySimpleLock {
+public class MyExclusiveLock {
     // 静态内部类，自定义同步器
     private static class Sync extends AbstractQueuedSynchronizer { // 是否处于占用状态
 
@@ -73,7 +73,7 @@ public class MySimpleLock {
 
 
     public static void main(String[] args) throws InterruptedException {
-        MySimpleLock mySimpleLock = new MySimpleLock();
+        MyExclusiveLock mySimpleLock = new MyExclusiveLock();
         mySimpleLock.lock();
         Thread thread = new Thread(()->{
             System.out.println("---start---");
