@@ -40,13 +40,18 @@ public class MyExclusiveFifoLock {
         MyExclusiveFifoLock myExclusiveFifoLock = new MyExclusiveFifoLock();
         myExclusiveFifoLock.lock();
         TimeUnit.MILLISECONDS.sleep(1);
-        Thread a =  new Thread(() -> {
+        new Thread(() -> {
             myExclusiveFifoLock.lock();
-        });
-        a.start();
-        TimeUnit.MILLISECONDS.sleep(1);
-//        a.interrupt();
+        }).start();
+        new Thread(() -> {
+            myExclusiveFifoLock.lock();
+        }).start();
+        new Thread(() -> {
+            myExclusiveFifoLock.lock();
+        }).start();
 
+        TimeUnit.MILLISECONDS.sleep(1);
+        myExclusiveFifoLock.unlock();
 
     }
 
