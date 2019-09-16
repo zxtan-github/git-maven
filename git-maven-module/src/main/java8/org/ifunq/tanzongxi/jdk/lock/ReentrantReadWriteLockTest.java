@@ -4,9 +4,14 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class ReentrantReadWriteLockTest {
 
-    ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+
 
     public static void main(String[] args) {
+        ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+        lock.writeLock().lock();
+        lock.writeLock().unlock();
+        lock.readLock().lock();
+        lock.readLock().unlock();
 
     }
 }
