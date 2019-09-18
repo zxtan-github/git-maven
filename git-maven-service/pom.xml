@@ -121,6 +121,13 @@
             <artifactId>transactions-jdbc</artifactId>
             <version>4.0.6</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.mengyun</groupId>
+            <artifactId>tcc-transaction-spring</artifactId>
+            <version>1.2.7</version>
+        </dependency>
+
     </dependencies>
 
     <build>

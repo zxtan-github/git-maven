@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--针对两个库，各配置一个AtomikosDataSourceBean，底层都使用MysqlXADataSource，和api的使用差不多-->
+    <!--配置数据源dataSource1-->
+    <bean id="dataSource1" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+        <property name="uniqueResourceName" value="ds1" />
+        <property name="xaDataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlXADataSource" />
+        <property name="xaProperties">
+            <props>
+                <prop key="url">jdbc:mysql://10.32.156.157:3306/haitao_test</prop>
+                <prop key="user">sfhaitao</prop>
+                <prop key="password">sfhaitaodev</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--配置数据源dataSource2-->
+    <bean id="dataSource2" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+        <property name="uniqueResourceName" value="ds2" />
+        <property name="xaDataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlXADataSource" />
+        <property name="xaProperties">
+            <props>
+                <prop key="url">jdbc:mysql://10.32.156.157:3306/fangqu_wow_logistics</prop>
+                <prop key="user">sfhaitao</prop>
+                <prop key="password">sfhaitaodev</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--针对两个数据源，各配置一个SqlSessionFactoryBean-->
+    <!--在spring，只有一个数据源时，这个是不用配置的-->
+    <bean id="haitao_test" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource1" />
+    </bean>
+    <bean id="fangqu_wow_logistics" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource2" />
+    </bean>
+
+    <!--针对两个SqlSessionFactoryBean，各配置一个MapperScannerConfigure，给不同的mapper或者dao设置不同的数据源（SqlSessionFactoryBean）-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="haitao_test"/>
+        <!--org.ifunq.tanzx.spring.Atomikos.Mapper1包下的ScTestMapper接口使用haitao_test获取底层数据库连接-->
+        <property name="basePackage" value="org.ifunq.tanzx.spring.Atomikos.Mapper1"/>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="fangqu_wow_logistics"/>
+        <!--指定org.ifunq.tanzx.spring.Atomikos.Mapper2包下的ScBrandMapper接口使用fangqu_wow_logistics获取底层数据库连接-->
+        <property name="basePackage" value="org.ifunq.tanzx.spring.Atomikos.Mapper2"/>
+    </bean>
+
+    <!--配置atomikos事务管理器-->
+    <bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init"
+          destroy-method="close">
+        <property name="forceShutdown" value="false"/>
+    </bean>
+
+    <!--将atomikos事务管理器转spring的jta事务管理器，就是被spring的事务管理器代理-->
+    <!--配置spring的JtaTransactionManager，底层委派给atomikos进行处理-->
+    <bean id="jtaTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+        <property name="transactionManager" ref="atomikosTransactionManager"/>
+    </bean>
+
+    <!--将spring的声明式事务管理器设置为spring的jta事务管理器（底层代理了atomikos事务管理器），spring提供了一个统一抽象-->
+    <tx:annotation-driven transaction-manager="jtaTransactionManager"/>
+
+    <bean id="atomikosSpringService" class="org.ifunq.tanzx.XA.atomikos.AtomikosSpringService"/>
+</beans>
