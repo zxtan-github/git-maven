@@ -4,17 +4,14 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
+    <!-- 配置PostProcessor识别@Autowired -->
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+
+    <import resource="classpath:tcc-transaction.xml"/>
+
     <bean id="transactionRepository" class="org.mengyun.tcctransaction.spring.repository.SpringJdbcTransactionRepository">
         <property name="dataSource" ref="dataSource"/>
     </bean>
-
-    <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"-->
-          <!--destroy-method="close">-->
-        <!--<property name="driverClassName" value="com.mysql.jdbc.Driver"/>-->
-        <!--<property name="url" value="jdbc:mysql://10.32.156.157:3306/haitao_test"/>-->
-        <!--<property name="username" value="sfhaitao"/>-->
-        <!--<property name="password" value="sfhaitaodev"/>-->
-    <!--</bean>-->
 
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -36,7 +33,4 @@
             </util:set>
         </property>
     </bean>
-
-    <import resource="classpath:tcc-transaction.xml"/>
-
 </beans>

@@ -1,8 +1,6 @@
 package org.ifunq.tanzx.spring.TCC.TccTransaction;
 
-import org.mengyun.tcctransaction.TransactionRepository;
 import org.mengyun.tcctransaction.api.Compensable;
-import org.mengyun.tcctransaction.spring.support.SpringTransactionConfigurator;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,9 +13,6 @@ public class TccTransactionSpringTest02 {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context =
                 new ClassPathXmlApplicationContext("spring/TCC/TccTransactionSpring02.xml");
-        TransactionRepository transactionRepository = context.getBean("transactionRepository", TransactionRepository.class);
-        SpringTransactionConfigurator springTransactionConfigurator = context.getBean("transactionConfigurator", SpringTransactionConfigurator.class);
-        springTransactionConfigurator.getTransactionManager().setTransactionRepository(transactionRepository);
         TccTransactionService02 service = context.getBean("tccTransactionService02", TccTransactionService02.class);
         System.out.println(service.record());
     }
