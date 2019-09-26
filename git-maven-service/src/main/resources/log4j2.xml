@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <Socket name="LogStash" host="192.168.1.6" port="5600">
+            <JsonLayout compact="true" eventEol="true"></JsonLayout>
+        </Socket>
+    </Appenders>
+    <Loggers>
+        <Root level="debug">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="LogStash"/>
+        </Root>
+    </Loggers>
+</Configuration>
