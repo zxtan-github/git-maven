@@ -1,4 +1,4 @@
-package org.ifunq.tanzx.JPA;
+package org.ifunq.tanzx.spring.DataJpa;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;

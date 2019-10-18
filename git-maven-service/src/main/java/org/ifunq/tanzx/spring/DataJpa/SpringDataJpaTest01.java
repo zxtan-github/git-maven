@@ -1,4 +1,4 @@
-package org.ifunq.tanzx.JPA;
+package org.ifunq.tanzx.spring.DataJpa;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -8,7 +8,7 @@ public class SpringDataJpaTest01 {
 
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context =
-                new ClassPathXmlApplicationContext("spring/JPA/Spring-Data-Jpa.xml");
+                new ClassPathXmlApplicationContext("spring/DATA/Spring-Data-Jpa.xml");
         UserRepository uerRepository = context.getBean(UserRepository.class);
         List<User> users = uerRepository.findByName("tanzongxi");
         System.out.println(users);
