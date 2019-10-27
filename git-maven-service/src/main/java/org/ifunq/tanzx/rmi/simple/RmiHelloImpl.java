@@ -1,4 +1,4 @@
-package org.ifunq.tanzx.RMI.simple;
+package org.ifunq.tanzx.rmi.simple;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;

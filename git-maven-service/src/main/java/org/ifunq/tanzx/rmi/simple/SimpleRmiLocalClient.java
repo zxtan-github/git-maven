@@ -1,4 +1,4 @@
-package org.ifunq.tanzx.RMI.simple;
+package org.ifunq.tanzx.rmi.simple;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
