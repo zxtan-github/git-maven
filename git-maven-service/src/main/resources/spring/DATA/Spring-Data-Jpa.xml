@@ -26,7 +26,7 @@
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
         </property>
-        <property name="packagesToScan" value="org.ifunq.tanzx.JPA"/>
+        <property name="packagesToScan" value="org.ifunq.tanzx.spring.DataJpa"/>
 
         <property name="jpaProperties">
             <props>
@@ -46,6 +46,6 @@
     </bean>
 
     <!--5 配置spring data-->
-    <jpa:repositories base-package="org.ifunq.tanzx.JPA" entity-manager-factory-ref="entityManagerFactory"/>
+    <jpa:repositories base-package="org.ifunq.tanzx.spring.DataJpa" entity-manager-factory-ref="entityManagerFactory"/>
 
 </beans>
