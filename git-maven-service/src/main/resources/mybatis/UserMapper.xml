@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="XXXXXX.UserMapper">
+
+    <select id="getUserById" parameterType="int" resultType="org.ifunq.tanzx.spring.DataJpa.User">
+        select * from user where id = #{id}
+    </select>
+
+    <select id="getUser" parameterType="org.ifunq.tanzx.spring.DataJpa.User" resultType="org.ifunq.tanzx.spring.DataJpa.User">
+        select * from user where 0 = 0
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="name != null">
+            AND name = #{name}
+        </if>
+        <if test="address != null">
+            AND address = #{address}
+        </if>
+        <if test="phone != null">
+            AND phone = #{phone}
+        </if>
+    </select>
+
+    <update id="updateUserById" parameterType="org.ifunq.tanzx.spring.DataJpa.User">
+        UPDATE USER SET
+        <if test="name != null">
+           name = #{name},
+        </if>
+        <if test="address != null">
+           address = #{address},
+        </if>
+        <if test="phone != null">
+            phone = #{phone},
+        </if>
+        WHERE id = #{id}
+    </update>
+</mapper>

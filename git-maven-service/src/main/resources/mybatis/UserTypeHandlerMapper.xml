@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ZZZZZZ.UserMapper">
+
+    <!--
+    <resultMap id="roleMapper" type="role">
+        <result property="id" column="id" />
+        <result property="roleName" column="role_name" jdbcType="VARCHAR"
+                javaType="string" />
+        <result property="note" column="note"
+                typeHandler="com.learn.ssm.chapter4.typehandler.MyTypeHandler" />
+    </resultMap>
+
+    <select id="getRole" parameterType="long" resultMap="roleMapper">
+        select id, role_name, note from t_role where id = #{id}
+    </select>
+     -->
+
+    <parameterMap id="parameterUser" type="org.ifunq.tanzx.mybatis.typehander.TypeHandlerUser">
+        <parameter property="id"/>
+        <parameter property="name"/>
+        <parameter property="phone"/>
+        <parameter property="address" javaType="org.ifunq.tanzx.mybatis.typehander.TypeHandlerUserAddress" jdbcType="VARCHAR" typeHandler="org.ifunq.tanzx.mybatis.typehander.MyTypeHandler"/>
+        <!--<parameter property="address" typeHandler="org.ifunq.tanzx.mybatis.typehander.MyTypeHandler"/>-->
+    </parameterMap>
+
+    <resultMap id="resultUser" type="org.ifunq.tanzx.mybatis.typehander.TypeHandlerUser">
+        <result property="id" column="id"></result>
+        <result property="name" column="name"></result>
+        <result property="phone" column="phone"></result>
+        <result property="address" column="address" typeHandler="org.ifunq.tanzx.mybatis.typehander.MyTypeHandler"></result>
+    </resultMap>
+
+    <select id="getUserById" parameterType="int" resultMap="resultUser">
+        select * from user where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="org.ifunq.tanzx.mybatis.typehander.TypeHandlerUser">
+        insert into user(name, phone, address)
+        values(#{name}, #{phone}, #{address,typeHandler=org.ifunq.tanzx.mybatis.typehander.MyTypeHandler})
+    </insert>
+</mapper>
