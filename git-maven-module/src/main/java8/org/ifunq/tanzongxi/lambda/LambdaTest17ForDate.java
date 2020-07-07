@@ -1,9 +1,11 @@
 package org.ifunq.tanzongxi.lambda;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class LambdaTest17ForDate {
 
@@ -20,5 +22,8 @@ public class LambdaTest17ForDate {
         ZonedDateTime zonedDateTime = ZonedDateTime.now(id);
         System.out.println(zonedDateTime.format(formatter1));
         System.out.println(zonedDateTime.format(formatter2));
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+        System.out.println(dateFormat.format(new Date()));
     }
 }

@@ -14,7 +14,7 @@ public class JjwtTest02 {
         JwtBuilder jwtBuilder = Jwts.builder().setId( "999" )
                 .setIssuedAt( new Date() )//签发时间
                 .setExpiration( new Date( exp ) )//过期时间
-                .signWith( SignatureAlgorithm.HS256, "hahaha" );
+                .signWith(SignatureAlgorithm.HS256, "hahaha" );
         String token = jwtBuilder.compact();
         System.out.println(token);
 
