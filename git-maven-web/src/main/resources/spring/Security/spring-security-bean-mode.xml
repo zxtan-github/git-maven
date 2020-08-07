@@ -31,19 +31,21 @@
     </security:http>
 
 
+    <bean name="authenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+        <property name="userDetailsService" ref="userDetailsService"/>
+    </bean>
 
-    <security:authentication-manager>
-        <security:authentication-provider>
-            <security:user-service>
-                <security:user name="user" password="user" authorities="ROLE_USER"/>
-                <security:user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN"/>
-            </security:user-service>
-        </security:authentication-provider>
-        <security:authentication-provider>
-            <!--还可以从users.properties文件中读取-->
-            <security:user-service properties="/WEB-INF/spring/security/users.properties"/>
-        </security:authentication-provider>
-    </security:authentication-manager>
+    <bean name="userDetailsService" class="org.springframework.security.provisioning.InMemoryUserDetailsManager"/>
+
+    <bean class="org.springframework.security.authentication.ProviderManager">
+        <constructor-arg name="providers">
+            <list>
+                <ref bean="authenticationProvider"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean class="org.ifunq.tanzx.spring.Security.SpringSecurityBeanModeInit"/>
 
     <!-- 注入cotrller -->
     <context:component-scan base-package="org.ifunq.tanzx.spring.controller"/>
