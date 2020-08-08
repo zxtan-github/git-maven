@@ -10,12 +10,12 @@
           http://www.springframework.org/schema/security
           http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
-    <security:http security="none" pattern="/login.jsp" />
     <security:http auto-config="true">
 
         <!-- username-parameter和password-parameter就是form提交表单是的参数名称 -->
+        <!-- login-processing-url表示绑定登陆的url，要和form提交表单（login.jsp）的action name相同，默认是/j-spring-security-check -->
         <security:form-login login-page="/login.jsp"
-                             login-processing-url="/j-spring-security-check"
+                             login-processing-url="/login.do"
                              username-parameter="username"
                              password-parameter="password"
                              default-target-url="/title.jsp"
@@ -25,26 +25,14 @@
         <!--<security:intercept-url pattern="/**" access="ROLE_USER"/>-->
         <!-- 表示匿名用户可以访问 -->
         <security:intercept-url pattern="/login.jsp" access="hasRole('ROLE_ANONYMOUS')"/>
+        <security:logout logout-url="/logout.do"/>
         <security:intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
 
         <!-- 4.0以后默认打开csrf,不允许post,设置为不打开 -->
         <security:csrf disabled="true"/>
     </security:http>
 
-
-
-    <security:authentication-manager>
-        <security:authentication-provider>
-            <security:user-service>
-                <security:user name="user" password="user" authorities="ROLE_USER"/>
-                <security:user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN"/>
-            </security:user-service>
-        </security:authentication-provider>
-        <security:authentication-provider>
-            <!--还可以从users.properties文件中读取-->
-            <security:user-service properties="/WEB-INF/spring/security/users.properties"/>
-        </security:authentication-provider>
-    </security:authentication-manager>
+    <bean name="org.springframework.security.authenticationManager" class="org.ifunq.tanzx.spring.Security.SpringSecurityCustomAuthenticationManager"/>
 
     <!-- 注入cotrller -->
     <context:component-scan base-package="org.ifunq.tanzx.spring.controller"/>

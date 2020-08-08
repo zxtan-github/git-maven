@@ -1,5 +1,5 @@
 <h1>欢迎来到Spring Security</h1>
-<form action="j-spring-security-check" method="post">
+<form action="login.do" method="post">
     <table>
         <tr>
             <td> 用户名：</td>
